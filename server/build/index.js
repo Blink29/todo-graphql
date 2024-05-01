@@ -15,22 +15,16 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const express4_1 = require("@apollo/server/express4");
 const server_1 = require("@apollo/server");
+const typedefs_1 = __importDefault(require("./graphql/typedefs"));
+const resolvers_1 = __importDefault(require("./graphql/resolvers"));
 function init() {
     return __awaiter(this, void 0, void 0, function* () {
         const app = (0, express_1.default)();
         const PORT = process.env.PORT || 8000;
         app.use(express_1.default.json());
         const gqlServer = new server_1.ApolloServer({
-            typeDefs: `
-            type Query {
-                hello: String
-            }
-        `,
-            resolvers: {
-                Query: {
-                    hello: () => 'Hello World hey'
-                }
-            },
+            typeDefs: typedefs_1.default,
+            resolvers: resolvers_1.default,
         });
         yield gqlServer.start();
         app.get('/', (req, res) => {

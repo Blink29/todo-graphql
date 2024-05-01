@@ -2,6 +2,9 @@ import express from 'express'
 import {expressMiddleware} from '@apollo/server/express4'
 import { ApolloServer } from '@apollo/server';
 
+import typeDefs from './graphql/typedefs';
+import resolvers from './graphql/resolvers';
+
 async function init() {
     const app = express()
     const PORT = process.env.PORT || 8000
@@ -9,16 +12,8 @@ async function init() {
     app.use(express.json());
 
     const gqlServer = new ApolloServer({
-        typeDefs: `
-            type Query {
-                hello: String
-            }
-        `,
-        resolvers: {
-            Query: {
-                hello: () => 'Hello World hey'
-            }
-        },
+        typeDefs,
+        resolvers: resolvers,
     })
 
     await gqlServer.start()
