@@ -1,4 +1,5 @@
 import { PrismaClient, Todo } from "@prisma/client";
+import { title } from "process";
 
 const prisma = new PrismaClient();
 
@@ -8,7 +9,7 @@ const resolvers = {
             return prisma.todo.findMany()
         }
     },
-    Mutations :{
+    Mutation: {
         createTodo: async(_: any, {title} : {title: string}): Promise<Todo> => {
             return prisma.todo.create({
                 data: {
@@ -17,17 +18,22 @@ const resolvers = {
                 }
             })
         },
-        updateTodo: async(_:any, {id}: {id: string}, {completed}: {completed: boolean}): Promise<Todo | null> => {
+        updateTodo: async(_:any, {id, title, completed}: {id: string, title: string, completed: boolean}): Promise<Todo | null> => {
+            console.log("updating", id)
+            console.log("first", title)
+            console.log("first", completed)
             return prisma.todo.update({
                 where: {
                     id
                 },
                 data: {
-                    completed
+                    completed,
+                    title
                 }
             })
         },
         deleteTodo: async(_:any, {id}: {id: string}): Promise<Todo | null> => {
+            console.log("todo deleting", id)
             return prisma.todo.delete({
                 where: {
                     id

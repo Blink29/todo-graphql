@@ -17,7 +17,7 @@ const resolvers = {
             return prisma.todo.findMany();
         })
     },
-    Mutations: {
+    Mutation: {
         createTodo: (_1, _a) => __awaiter(void 0, [_1, _a], void 0, function* (_, { title }) {
             return prisma.todo.create({
                 data: {
@@ -26,17 +26,22 @@ const resolvers = {
                 }
             });
         }),
-        updateTodo: (_2, _b, _c) => __awaiter(void 0, [_2, _b, _c], void 0, function* (_, { id }, { completed }) {
+        updateTodo: (_2, _b) => __awaiter(void 0, [_2, _b], void 0, function* (_, { id, title, completed }) {
+            console.log("updating", id);
+            console.log("first", title);
+            console.log("first", completed);
             return prisma.todo.update({
                 where: {
                     id
                 },
                 data: {
-                    completed
+                    completed,
+                    title
                 }
             });
         }),
-        deleteTodo: (_3, _d) => __awaiter(void 0, [_3, _d], void 0, function* (_, { id }) {
+        deleteTodo: (_3, _c) => __awaiter(void 0, [_3, _c], void 0, function* (_, { id }) {
+            console.log("todo deleting", id);
             return prisma.todo.delete({
                 where: {
                     id
