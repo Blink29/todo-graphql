@@ -2,15 +2,15 @@ version: '3.4'
 
 services:
   postgres:
-    container_name: todo-graphql
+    container_name: todo-graphql-app
     image: postgres
     ports:
       - 5432:5432
     volumes:
       - postgres_data:/var/lib/postgresql/data
     environment:  
-      POSTGRES_USER: puru2905
-      POSTGRES_DB: todo-graphql
-      POSTGRES_PASSWORD: todo
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: puru2905
+      POSTGRES_DB: todo_graphql
 volumes:
   postgres_data:
