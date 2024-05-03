@@ -1,36 +1,24 @@
 import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import TodoModal from './TodoModal';
-
 import { UPDATE_TODO, DELETE_TODO } from '../graphql/mutations';
-
-const deleteTodoUpdateCache = (cache: any, { data: { deleteTodo } }: any) => {
-    cache.modify({
-      fields: {
-        todos(existingTodos: any[], { readField }: any) {
-          return existingTodos.filter((todoRef) => {
-            return deleteTodo.id !== readField('id', todoRef);
-          });
-        },
-      },
-    });
-  };
-
-interface Todo {
-  id: string;
-  title: string;
-  completed: boolean;
-}
-
-interface Props {
-  todo: Todo;
-}
+import { toast } from 'react-toastify';
 
 const TodoItem: React.FC<Props> = ({ todo }) => {
   const [showModal, setShowModal] = useState(false);
   const [updateTodo] = useMutation(UPDATE_TODO);
   const [deleteTodo] = useMutation(DELETE_TODO,{
-    update: deleteTodoUpdateCache,
+    update: (cache, { data: { deleteTodo } }) => {
+      cache.modify({
+        fields: {
+          todos(existingTodos = [], { readField }) {
+            return existingTodos.filter(
+              (todoRef: any) => deleteTodo.id !== readField('id', todoRef)
+            );
+          },
+        },
+      });
+    },
   });
 
   const handleUpdateTodo = (title: string) => {
@@ -42,6 +30,7 @@ const TodoItem: React.FC<Props> = ({ todo }) => {
       }
     });
     setShowModal(false);
+    toast.success('Todo updated.');
   };
 
   const handleToggleComplete = () => {
@@ -60,6 +49,7 @@ const TodoItem: React.FC<Props> = ({ todo }) => {
         id: todo.id
       }
     });
+    toast.success('Todo deleted.');
   };
 
   return (
