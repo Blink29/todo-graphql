@@ -11,9 +11,7 @@ async function init() {
 
     app.use(express.json());
 
-    interface EmptyContext {}
-
-    const gqlServer = new ApolloServer<EmptyContext>({
+    const gqlServer = new ApolloServer({
         typeDefs,
         resolvers: resolvers,
     })

@@ -27,9 +27,6 @@ const resolvers = {
             });
         }),
         updateTodo: (_2, _b) => __awaiter(void 0, [_2, _b], void 0, function* (_, { id, title, completed }) {
-            console.log("updating", id);
-            console.log("first", title);
-            console.log("first", completed);
             return prisma.todo.update({
                 where: {
                     id
@@ -41,7 +38,6 @@ const resolvers = {
             });
         }),
         deleteTodo: (_3, _c) => __awaiter(void 0, [_3, _c], void 0, function* (_, { id }) {
-            console.log("todo deleting", id);
             return prisma.todo.delete({
                 where: {
                     id
