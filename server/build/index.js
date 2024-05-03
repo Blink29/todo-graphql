@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const express4_1 = require("@apollo/server/express4");
 const server_1 = require("@apollo/server");
+const cors_1 = __importDefault(require("cors"));
 const typedefs_1 = __importDefault(require("./graphql/typedefs"));
 const resolvers_1 = __importDefault(require("./graphql/resolvers"));
 function init() {
@@ -22,6 +23,7 @@ function init() {
         const app = (0, express_1.default)();
         const PORT = process.env.PORT || 8000;
         app.use(express_1.default.json());
+        app.use((0, cors_1.default)());
         const gqlServer = new server_1.ApolloServer({
             typeDefs: typedefs_1.default,
             resolvers: resolvers_1.default,
